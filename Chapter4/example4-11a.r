@@ -1,6 +1,6 @@
 library(ggplot2)
 
-pdf("figure3-7.pdf")
+pdf("figure4-7.pdf")
 
 df <- function(sim) {
   data <- read.table(paste(sim,".csv",sep=""), header=TRUE, sep=",")

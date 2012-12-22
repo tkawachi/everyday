@@ -1,6 +1,6 @@
 library(ggplot2)
 
-pdf("figure3-2.pdf")
+pdf("figure4-2.pdf")
 data <- read.table("simulation1.csv", header=TRUE, sep=",")
 mean <- colMeans(data)
 median <- apply(data,2,median)
