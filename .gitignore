@@ -3,6 +3,7 @@
 .idea/
 
 .RData
+.Rhistory
 .Rapp.history
 *.Rout
 
