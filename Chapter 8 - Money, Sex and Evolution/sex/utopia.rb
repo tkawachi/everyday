@@ -59,7 +59,7 @@ Shoes.app(:title => 'Utopia', :width => WORLD[:xmax], :height => WORLD[:ymax]) d
   time = END_OF_THE_WORLD
   
   animate(FPS) do 
-    randomly_scatter_food 70
+    randomly_scatter_food 40
     clear do
       males = 0
       females = 0
