@@ -1,3 +1,4 @@
+library(grid)
 library(ggplot2)
 data <- read.table("money.csv", header=F, sep=",")
 samples <- data.frame(roid=1:51)

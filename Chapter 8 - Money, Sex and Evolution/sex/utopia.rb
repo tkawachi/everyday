@@ -20,9 +20,9 @@ def random_location
 end
 
 def populate
-  POPULATION_SIZE.times do |i|
+  POPULATION_SIZE.times do
     random_velocity = Vector[rand(11)-5,rand(11)-5]
-    $roids << Roid.new(self, random_location, random_velocity, i)     
+    $roids << Roid.new(self, random_location, random_velocity)
   end  
 end
 
@@ -59,23 +59,23 @@ Shoes.app(:title => 'Utopia', :width => WORLD[:xmax], :height => WORLD[:ymax]) d
   time = END_OF_THE_WORLD
   
   animate(FPS) do 
-    randomly_scatter_food 30
+    randomly_scatter_food 70
     clear do
-      males = []
-      females = []
+      males = 0
+      females = 0
       fill yellowgreen      
       $food.each do |food| food.tick; end
       fill gainsboro      
       $roids.each do |roid| 
-        males << roid if roid.sex == :male
-        females << roid if roid.sex == :female
+        males += 1 if roid.male?
+        females += 1 if roid.female?
         roid.tick 
       end
-      data << [$roids.size, males.size, females.size]
+      data << [$roids.size, males, females]
       para "countdown: #{time}"
       para "population: #{$roids.size}"      
-      para "male: #{males.size}"
-      para "female: #{females.size}"
+      para "male: #{males}"
+      para "female: #{females}"
     end
     
     time -= 1

@@ -1,15 +1,23 @@
 class Roid
-  attr_reader :velocity, :position, :energy, :uid, :sex, :lifespan, :age
+  attr_reader :velocity, :position, :energy, :sex, :lifespan, :age
+  attr_writer :energy
 
-  def initialize(slot, p, v, id) 
+  def initialize(slot, p, v)
     @velocity = v # assume v is a Vector with X velocity and Y velocity as elements
     @position = p # assume p is a Vector with X and Y as elements
     @slot = slot
     @energy = rand(MAX_ENERGY)
-    @uid = id
     @sex = rand(2) == 1 ? :male : :female
     @lifespan = rand(MAX_LIFESPAN)
     @age = 0
+  end
+
+  def male?
+    @sex == :male
+  end
+
+  def female?
+    @sex == :female
   end
 
   def distance_from(roid)
@@ -38,7 +46,7 @@ class Roid
     size = ROID_SIZE * @energy.to_f/50.0
     size = 10 if size > 10
     o = @slot.oval :left => @position[0], :top => @position[1], :radius => size, :center => true
-    o.fill = @slot.lightblue if @sex == :male
+    o.fill = @slot.lightblue if male?
     @slot.line @position[0], @position[1], @position[0] - @velocity[0], @position[1] - @velocity[1]    
   end
 
@@ -127,19 +135,19 @@ class Roid
       if distance_from_point(food.position) < (food.quantity + ROID_SIZE*5)
         @delta -= self.position - food.position
       end  
-      if distance_from_point(food.position) <= food.quantity + 15
+      if distance_from_point(food.position) <= food.quantity + 5
         eat food
       end  
     end    
   end
 
   def reduce_energy_from_childbirth
-    @energy = @energy * CHILDBEARING_ENERGY_SAP
+    @energy -= CHILDBEARING_ENERGY_SAP
   end
 
   # consume the food and replenish energy with it
   def eat(food)  
-    amt_consumed = METABOLISM
+    amt_consumed = (male? ? MALE_METABOLISM : FEMALE_METABOLISM)
     food.eat amt_consumed    
     @energy += amt_consumed
   end
@@ -154,19 +162,20 @@ class Roid
   end
 
   def procreate
-    if attractive and @sex == :female
+    if attractive and female?
       # check for potential nearby mates
       r = $roids.sort {|a,b| self.distance_from(a) <=> self.distance_from(b)}
       roids = r.first(MAGIC_NUMBER)
-      roids.each do |roid|
-        if roid.attractive and roid.sex == :male #and $roids.size < 100
-          baby = Roid.new(@slot, @position, @velocity, 1001)
-          $roids << baby
-          reduce_energy_from_childbirth
-          roid.reduce_energy_from_childbirth
-        end
-        
-      end      
+      roid = roids.delete_if {|r| r.female? or not (r.attractive)}.first
+
+      if roid
+        baby = Roid.new(@slot, @position, @velocity)
+
+        $roids << baby
+        reduce_energy_from_childbirth
+        roid.reduce_energy_from_childbirth
+      end
+
     end
   end
 
