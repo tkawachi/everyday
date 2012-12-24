@@ -109,8 +109,10 @@ def initialize_data(additional_consumer_num)
 
 end
 
-
 def execute_simulation(count)
+
+  initialize_data count
+
   SIMULATION_DURATION.times do |t|
     $consumers.each do |consumer|
       consumer.demands = $generated_demand[t]
@@ -136,6 +138,5 @@ def execute_simulation(count)
 end
 
 (MAX_CONSUMERS - NUM_OF_CONSUMERS).times do |i|
-  initialize_data i
   execute_simulation i
 end
