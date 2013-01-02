@@ -1,12 +1,11 @@
 class Roid
-  attr_reader :velocity, :position, :energy, :uid, :sex, :lifespan, :age
+  attr_reader :velocity, :position, :energy, :sex, :lifespan, :age
 
-  def initialize(slot, p, v, id) 
+  def initialize(slot, p, v)
     @velocity = v # assume v is a Vector with X velocity and Y velocity as elements
     @position = p # assume p is a Vector with X and Y as elements
     @slot = slot
     @energy = rand(MAX_ENERGY)
-    @uid = id
     @sex = rand(2) == 1 ? :male : :female
     @lifespan = rand(MAX_LIFESPAN)
     @age = 0
@@ -168,7 +167,7 @@ class Roid
       roids = r.first(MAGIC_NUMBER)
       roids.each do |roid|
         if roid.attractive and roid.male?
-          baby = Roid.new(@slot, @position, @velocity, 1001)
+          baby = Roid.new(@slot, @position, @velocity)
           $roids << baby
           reduce_energy_from_childbirth
           roid.reduce_energy_from_childbirth

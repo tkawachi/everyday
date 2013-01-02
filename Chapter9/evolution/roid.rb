@@ -1,12 +1,11 @@
 class Roid
-  attr_reader :velocity, :position, :energy, :uid, :sex, :lifespan, :age, :metabolism, :vision_range
+  attr_reader :velocity, :position, :energy, :sex, :lifespan, :age, :metabolism, :vision_range
   
-  def initialize(slot, p, v, id) 
+  def initialize(slot, p, v)
     @velocity = v # assume v is a Vector with X velocity and Y velocity as elements
     @position = p # assume p is a Vector with X and Y as elements
     @slot = slot
     @energy = rand(MAX_ENERGY)
-    @uid = id
     @sex = rand(2) == 1 ? :male : :female
     @lifespan = rand(MAX_LIFESPAN)
     @age = 0
@@ -174,7 +173,7 @@ class Roid
       roids = r.first(MAGIC_NUMBER)
       roids.each do |roid|
         if roid.attractive and roid.male?
-          baby = Roid.new(@slot, @position, @velocity, 1001)
+          baby = Roid.new(@slot, @position, @velocity)
           crossovers = [[@metabolism, @vision_range],
                         [@metabolism,roid.vision_range],
                         [roid.metabolism, @vision_range],

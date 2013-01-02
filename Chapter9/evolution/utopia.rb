@@ -22,7 +22,7 @@ end
 def populate
   POPULATION_SIZE.times do |i|
     random_velocity = Vector[rand(11)-5,rand(11)-5]
-    $roids << Roid.new(self, random_location, random_velocity, i)     
+    $roids << Roid.new(self, random_location, random_velocity)
   end  
 end
 
