@@ -67,8 +67,8 @@ Shoes.app(:title => 'Utopia', :width => WORLD[:xmax], :height => WORLD[:ymax]) d
       $food.each do |food| food.tick; end
       fill gainsboro      
       $roids.each do |roid| 
-        males << roid if roid.sex == :male
-        females << roid if roid.sex == :female
+        males << roid if roid.male?
+        females << roid if roid.female?
         roid.tick 
       end
       data << [$roids.size, males.size, females.size]

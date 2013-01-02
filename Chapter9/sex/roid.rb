@@ -12,6 +12,14 @@ class Roid
     @age = 0
   end
 
+  def male?
+    @sex == :male
+  end
+
+  def female?
+    @sex == :female
+  end
+
   def distance_from(roid)
     distance_from_point(roid.position)
   end
@@ -38,7 +46,7 @@ class Roid
     size = ROID_SIZE * @energy.to_f/50.0
     size = 10 if size > 10
     o = @slot.oval :left => @position[0], :top => @position[1], :radius => size, :center => true
-    o.fill = @slot.lightblue if @sex == :male
+    o.fill = @slot.lightblue if male?
     @slot.line @position[0], @position[1], @position[0] - @velocity[0], @position[1] - @velocity[1]    
   end
 
@@ -159,7 +167,7 @@ class Roid
       r = $roids.sort {|a,b| self.distance_from(a) <=> self.distance_from(b)}
       roids = r.first(MAGIC_NUMBER)
       roids.each do |roid|
-        if roid.attractive and roid.sex == :male #and $roids.size < 100
+        if roid.attractive and roid.male?
           baby = Roid.new(@slot, @position, @velocity, 1001)
           $roids << baby
           reduce_energy_from_childbirth
