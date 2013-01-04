@@ -111,7 +111,7 @@ end
 
 def execute_simulation(additional_consumer_count)
 
-  initialize_data count
+  initialize_data additional_consumer_count
 
   SIMULATION_DURATION.times do |t|
     $consumers.each do |consumer|
