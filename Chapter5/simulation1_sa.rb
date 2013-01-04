@@ -109,7 +109,7 @@ def initialize_data(additional_consumer_num)
 
 end
 
-def execute_simulation(count)
+def execute_simulation(additional_consumer_count)
 
   initialize_data count
 
@@ -132,8 +132,8 @@ def execute_simulation(count)
     end
   end
 
-  write("demand_supply" + count.to_s, $demand_supply)
-  write("price_demand" + count.to_s, $price_demand)
+  write("demand_supply" + additional_consumer_count.to_s, $demand_supply)
+  write("price_demand" + additional_consumer_count.to_s, $price_demand)
 
 end
 
